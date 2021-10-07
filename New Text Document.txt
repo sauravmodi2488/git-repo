@@ -1,0 +1,52 @@
+$t=@()
+$cobj=@()
+$fobj=@()
+foreach($sh in $shortdes)
+{
+
+  $fl=$sh.flag
+  $t=($sh.name).Split(" ",[StringSplitOptions]::RemoveEmptyEntries)
+  $na=$sh.name
+  #$t1=$t1.replace(" ","")
+  $keyLen=$t.count
+  $keyLen=($keyLen*70)/100
+  $keyLen=[Math]::Ceiling($keyLen)
+
+ foreach($n in $shortdes)
+ {
+ if($n.incident -eq $sh.incident)
+ {
+ continue
+ }
+ $ct=$n.category
+ $n=$n.name
+ 
+ $c=1
+ $cnt=1 
+ $e=foreach($t1 in $t)
+ {
+   if($n.contains($t1))
+   {
+    $c=$c+1
+   }
+   else
+   {
+   $c=$c
+   }
+   
+  }
+  
+   if($c -ge $keyLen)
+   {
+    $cnt++
+    $fl=1
+     $fobj = New-Object psobject
+     Add-Member -InputObject $fobj -MemberType NoteProperty -Name "name" -Value $n
+     Add-Member -InputObject $fobj -MemberType NoteProperty -Name "count" -Value $cnt
+     Add-Member -InputObject $fobj -MemberType NoteProperty -Name "flag" -Value $fl
+     Add-Member -InputObject $fobj -MemberType NoteProperty -Name "category" -Value $ct 
+     $cobj +=$fobj
+     $cobj
+   }
+  }
+}
